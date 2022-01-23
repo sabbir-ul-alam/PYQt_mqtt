@@ -1,0 +1,3 @@
+exclude requirements.txt
+exclude config.cfg
+include *.yaml
