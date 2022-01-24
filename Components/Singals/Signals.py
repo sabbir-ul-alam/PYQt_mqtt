@@ -37,20 +37,19 @@ class Signals(object):
 
 
     def conectionSignal(var:str,ui):
-        print("singal called")
+        print("Singal called")
         if ui.connect.text()=="Connect":
             ui.connect.setText("Disconnect")
             ui.display_result.clear()
             userName = "server31"
             #userName=ui.inputUserName.text()
-            password = "SP5WjUMnt1kF00"
+            password = "SP5WjUMnt1kF"
             #password=ui.inputPassword.text()
-
             clientId = "communicator-admin-03"
             #clientId=ui.inputClientId.text()
 
             topicName = "communicator/0/9bf5b73e-8f06-499d-bc9a-09fcc52febfc/call_events"
-           # topicName=ui.inputTopicName.text()
+            #topicName=ui.inputTopicName.text()
             ui.inputUserName.setDisabled(True)
             ui.inputPassword.setDisabled(True)
             ui.inputClientId.setDisabled(True)
@@ -64,8 +63,8 @@ class Signals(object):
                 global client
                 client= Signals(ui,config, message_processor=on_message)
                 client.listen()
-            except:
-                pass
+            except Exception as e:
+                print(e)
         else:
             ui.connect.setText("Connect")
             client.disconnect()
