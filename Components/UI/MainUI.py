@@ -33,9 +33,9 @@ class MainUI(qtw.QWidget):
         self.inputPassword=Input().renderBox("Password")
         self.inputClientId = Input().renderBox("Client ID")
         self.inputTopicName = Input().renderBox("Topic Name")
-        self.connect=Buttons("Connect")#.renderBox("Connect")
-        self.clear = Buttons("Clear & Disconnect")
-        self.clear.setEnabled(True)
+        self.connect=Buttons("Connect")
+
+
 
 
 
@@ -71,8 +71,8 @@ class MainUI(qtw.QWidget):
         self.layout.addWidget(self.inputClientId, 6, 0,1,2)
         self.layout.addWidget(self.inputTopicName, 7, 0,1,2)
 
-        self.layout.addWidget(self.connect ,8, 0,1,1)
-        self.layout.addWidget(self.clear, 8, 1,1,1)
+        self.layout.addWidget(self.connect ,8, 0,1,3)
+
         #self.layout.addWidget(self.warning_label, 4,4,1,2)
 
 

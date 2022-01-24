@@ -9,4 +9,5 @@ if __name__ == '__main__':
     lol=MainUI()
     lol.connect.clicked.connect(
         lambda: Signals.conectionSignal("1",lol))
+
     sys.exit(app.exec_())
