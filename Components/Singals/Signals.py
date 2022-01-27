@@ -4,7 +4,10 @@ from PyQt5 import  QtCore as qtc
 from Components.Singals.process import on_message
 from paho.mqtt.client import Client
 from PyQt5.QtCore import QObject, pyqtSlot
-
+from PyQt5 import  QtGui as qtg
+from PyQt5.QtGui import QTextCursor
+import time
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QPushButton
 
 
 class Signals(object):
@@ -35,6 +38,11 @@ class Signals(object):
         if message_processor:
                 self.message_processor = message_processor
 
+    def on_search(var: str, ui):
+        dlg = QDialog()
+        dlg.setWindowTitle("HELLO!")
+        dlg.exec()
+        print("lul")
 
     def conectionSignal(var:str,ui):
         print("Singal called")
@@ -82,35 +90,45 @@ class Signals(object):
     def _on_log(self, client, userdata, level, buf):
        #qtc.QCoreApplication.processEvents()
        print("on log")
+       time.sleep(.3)
        #self.ui.display_result.append(f"{buf}, origin: {userdata['client']}")
     def _on_connect(self, client, userdata, flags, rc):
         #qtc.QCoreApplication.processEvents()
         print("on connect")
         self.client.subscribe(self.config.mqtt_topics)
-        self.ui.display_result.append(f"Connecting.....")
+        self.printUi("Connecting.....")
+        #self.ui.display_result.append(f"Connecting.....")
 
     def _on_subscribe(self, client, userdata, mid, granted_qos):
         #qtc.QCoreApplication.processEvents()
         print("on subscribe")
-        self.ui.display_result.append(f"Subscribed")
-        self.ui.display_result.append(f'Listening for {self.config.mqtt_topics}...')
+        self.printUi("Subscribed\n"+f'Listening for {self.config.mqtt_topics}...')
+
     def _on_disconnect(self, client, userdata, rc):
         #qtc.QCoreApplication.processEvents()
         print("on disconnect")
-        self.ui.display_result.append(f"Disconnected {userdata['client']}, result code: {str(rc)}")
+        self.printUi(f"Disconnected {userdata['client']}, result code: {str(rc)}")
+
 
 
     def _on_message(self, client, userdata, msg):
         #qtc.QCoreApplication.processEvents()
-        print("on message")
-        if hasattr(self, "message_processor"):
-            self.message_processor(client, userdata, msg,self.ui)
-        else:
-            self.ui.display_result.append(f"Topic: {msg.topic}, Mid: {msg.mid}, Payload: {msg.payload.decode('utf-8')}")
+        #pass
+        time.sleep(.2)
+        try:
+            print("on message")
+            if hasattr(self, "message_processor"):
+                self.message_processor(client, userdata, msg,self.ui)
+
+
+            else:
+                self.ui.display_result.append(f"Topic: {msg.topic}, Mid: {msg.mid}, Payload: {msg.payload.decode('utf-8')}")
+        except Exception as e:
+            print(e)
     def _on_publish(self, client, userdata, mid):
         #qtc.QCoreApplication.processEvents()
         print("on publis")
-        self.ui.display_result.append(f"Published by {userdata['client']}, mid: {mid}")
+        self.printUi(f"Published by {userdata['client']}, mid: {mid}")
 
 
     def disconnect(self):
@@ -124,8 +142,14 @@ class Signals(object):
     def listen(self):
         print("on lisn")
         try:
-            qtc.QCoreApplication.processEvents()
+
             self.client.loop_start()
         except KeyboardInterrupt:
            # self.ui.display_result.append(f"Received KeyboardInterrupt, disconnecting {self.config.mqtt_client}")
             self.client.disconnect()
+
+    def printUi(self, text):
+        self.ui.display_result.append(text)
+        self.ui.display_result.moveCursor(qtg.QTextCursor.End)
+        #qtc.QCoreApplication.processEvents()
+

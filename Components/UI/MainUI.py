@@ -8,7 +8,7 @@ from Components.Input.Input import Input
 from PyQt5 import  QtCore as qtc
 from PyQt5 import  QtGui as qtg
 
-
+from PyQt5.QtGui import QKeySequence
 
 
 
@@ -20,21 +20,62 @@ class MainUI(qtw.QWidget):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.setWindowTitle("MQTT Subscriber")
-        self.resize(800,800)
+        self.resize(800,1200)
         self.setWindowIcon(qtg.QIcon("logger.ico"))
         self.setMaximumWidth(800)
-        self.setMinimumHeight(800)
-        self.setMaximumHeight(800)
+        self.setMinimumHeight(1200)
+        self.setMaximumHeight(1200)
         self.setMinimumWidth(800)
-        self.layout=qtw.QGridLayout()
+        self.layout = qtw.QGridLayout()
 
-        self.display_result= DisplayBox().renderBox()
-        self.inputUserName= Input().renderBox("Username")
-        self.inputPassword=Input().renderBox("Password")
-        self.inputClientId = Input().renderBox("Client ID")
-        self.inputTopicName = Input().renderBox("Topic Name")
-        self.connect=Buttons("Connect")
+        self.display_result = qtw.QTextEdit()
+        self.display_result.setReadOnly(True)
+        self.display_result.setAcceptRichText(True)
+        self.font = qtg.QFont()
+        self.font.setPointSize(14)
+        self.display_result.setFont(self.font)
+        self.scrollBar = qtw.QScrollBar()
+        self.display_result.setVerticalScrollBar(self.scrollBar)
 
+
+        #self.inputUserName= Input().renderBox("Username")
+        self.inputUserName = qtw.QLineEdit()
+        self.inputUserName.setPlaceholderText("Username")
+
+
+        #self.inputPassword=Input().renderBox("Password")
+        self.inputPassword = qtw.QLineEdit()
+        self.inputPassword.setPlaceholderText("Password")
+
+        #self.inputClientId = Input().renderBox("Client ID")
+        self.inputClientId = qtw.QLineEdit()
+        self.inputClientId.setPlaceholderText("Client ID")
+
+
+
+        #self.inputTopicName = Input().renderBox("Topic Name")
+        self.inputTopicName = qtw.QLineEdit()
+        self.inputTopicName.setPlaceholderText("Topic Name")
+
+        self.connect = qtw.QPushButton("Connect")
+        self.shortcut = qtw.QShortcut(QKeySequence("Ctrl+f"), self)
+
+
+
+
+
+
+
+
+
+
+        # self.old_cursor = qtg.QTextCursor()
+        # self.old_scrollbar_value=self.scrollBar.value()
+        # self.is_scrolled_down = False
+        # if self.old_scrollbar_value==self.scrollBar.maximum():
+        #     self.is_scrolled_down = True
+        # else:
+        #     self.is_scrolled_down = False
 
 
 
